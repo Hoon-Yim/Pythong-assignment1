@@ -8,8 +8,6 @@ employee_list = []
 item_list = []
 
 # Asks if the use wants to store more employees or items
-
-
 def close_or_not(type):
     while True:
         yes_or_no = input(f"Another {type}? [y/n] ")
@@ -28,8 +26,6 @@ def close_or_not(type):
             print("Enter between 'y' or 'n'..")
 
 # Checks if the employee id or discount is unique
-
-
 def is_employee_element_unique(value, index):
     for employee in employee_list:
         if employee[index] == value:
@@ -37,8 +33,6 @@ def is_employee_element_unique(value, index):
     return True
 
 # Creating Employee
-
-
 def create_employee():
     NO_entered = False
     halt_statement = "Creating Employee Halt"
@@ -83,19 +77,7 @@ def create_employee():
     employee_list.append(temp_list)
     print(employee_list)
 
-
-def create_employee_page():
-    while True:
-        create_employee()
-        while True:
-            if close_or_not("Employee"):
-                return
-            else:
-                break
-
 # Checks if the item id is unique
-
-
 def is_item_id_unique(id):
     for item in item_list:
         if item[0] == id:
@@ -103,8 +85,6 @@ def is_item_id_unique(id):
     return True
 
 # Creating Item
-
-
 def create_item():
     NO_entered = False
     halt_statement = "Creating Employee Halt"
@@ -131,23 +111,10 @@ def create_item():
     item_list.append(temp_list)
     print(item_list)
 
-
-def create_item_page():
-    while True:
-        create_item()
-        while True:
-            if close_or_not("Item"):
-                return
-            else:
-                break
-
 # Making Purchase
 # for formatting
-
-
 def wcpadding(s, l):
     return s + " " * (l - wcswidth(s))
-
 
 def print_items():
     if len(item_list) == 0:
@@ -162,8 +129,6 @@ def print_items():
         return True
 
 # Employee Summary
-
-
 def print_employees():
     # print employees
     if len(employee_list) == 0:
@@ -175,11 +140,9 @@ def print_employees():
             print("{0}|{1}|{2}|{3}|{4}|{5}|{6}".format(wcpadding(str(employee[0]), 12), wcpadding(str(employee[1]), 15), wcpadding(str(employee[2]), 15), wcpadding(
                 str(employee[3]), 15), wcpadding(str(employee[4]), 17), wcpadding(str(employee[5]), 17), wcpadding(str(employee[6]), 15)))
 
-
 def calculate_discount():
     print("Calculating..")
     return
-
 
 def check_employee_and_item():
     employee_exist = False
@@ -206,8 +169,7 @@ def check_employee_and_item():
 
     calculate_discount()
 
-
-def make_purchase_page():
+def make_purchase():
     if not print_items():
         print("You cannot make a purchase..")
         return
@@ -235,6 +197,34 @@ def make_purchase_page():
             else:
                 print("Enter between 'y' or 'n'..")
 
+# Pages
+def create_employee_page():
+    print("\nㅡㅡㅡㅡㅡ Employee Creation ㅡㅡㅡㅡㅡ")
+    while True:
+        create_employee()
+        while True:
+            if close_or_not("Employee"):
+                return
+            else:
+                break
+
+def create_item_page():
+    print("\nㅡㅡㅡㅡㅡ Item Creation ㅡㅡㅡㅡㅡ")
+    while True:
+        create_item()
+        while True:
+            if close_or_not("Item"):
+                return
+            else:
+                break
+
+def make_purchase_page():
+    print("\nㅡㅡㅡㅡㅡ Making Purchase ㅡㅡㅡㅡㅡ")
+    make_purchase()
+
+def print_employees_page():
+    print("\nㅡㅡㅡㅡㅡ Employees List ㅡㅡㅡㅡㅡ")
+    print_employees()
 
 def print_menu():
     print("\nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
@@ -245,11 +235,10 @@ def print_menu():
     print("| 5-Exit                 |")
     print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n")
 
-
 def run():
     while True:
         print_menu()
-        choice, _ = int_input("")
+        choice, _ = int_input("Please enter your choice: ")
         if choice == 1:
             create_employee_page()
         elif choice == 2:
@@ -257,9 +246,8 @@ def run():
         elif choice == 3:
             make_purchase_page()
         elif choice == 4:
-            print_employees()
+            print_employees_page()
         elif choice == 5:
             sys.exit("Exiting Application..")
-
 
 run()
