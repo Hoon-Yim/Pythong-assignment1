@@ -1,6 +1,11 @@
 # Ms. Laily Ajeliu
+# Assignment 1
+# Seunghun Yim 101325908
+
+from asyncio.windows_events import NULL
 from genericpath import exists
 import sys
+from pyparsing import null_debug_action
 from wcwidth import wcswidth
 from input_validation import *
 
@@ -118,7 +123,6 @@ def wcpadding(s, l):
 
 def print_items():
     if len(item_list) == 0:
-        print("There is no Item..")
         return False
     else:
         print("{0}|{1}|{2}".format(wcpadding("Item Number", 12),
@@ -140,17 +144,35 @@ def print_employees():
             print("{0}|{1}|{2}|{3}|{4}|{5}|{6}".format(wcpadding(str(employee[0]), 12), wcpadding(str(employee[1]), 15), wcpadding(str(employee[2]), 15), wcpadding(
                 str(employee[3]), 15), wcpadding(str(employee[4]), 17), wcpadding(str(employee[5]), 17), wcpadding(str(employee[6]), 15)))
 
-def calculate_discount():
-    print("Calculating..")
+def calculate_purchase(emp, item):
+    if (emp[5] >= 200):
+        print(f"Employee {emp[0]} already hit the maximum discount amount\nThere will be no discount..")
+        emp[4] += item[2]
+
+    else:
+        percent_per_year = emp[3] * 2
+        if (percent_per_year > 10):
+            percent_per_year = 10
+        if (emp[2] == "manager"):
+            percent_per_year += 10
+        else:
+            percent_per_year += 2
+        percent_per_year /= 100
+
+        emp[5] += item[2] * percent_per_year
+        emp[4] += item[2] - (item[2] * percent_per_year)
+
     return
 
 def check_employee_and_item():
     employee_exist = False
+    emp = NULL
     while not employee_exist:
         discount_num, _ = int_input(
             "Please enter the Employee's discount number: ")
         for employee in employee_list:
             if employee[6] == discount_num:
+                emp = employee
                 employee_exist = True
                 break
         if not employee_exist:
@@ -158,20 +180,22 @@ def check_employee_and_item():
                 f"There is no employee who has {discount_num} as a discount number..")
 
     item_exist = False
+    it = NULL
     while not item_exist:
         item_num, _ = int_input("Please enter an Item's ID: ")
         for item in item_list:
             if item[0] == item_num:
+                it = item
                 item_exist = True
                 break
         if not item_exist:
             print(f"There is no item {item_num} to purchase..")
 
-    calculate_discount()
+    calculate_purchase(emp, it)
 
 def make_purchase():
     if not print_items():
-        print("You cannot make a purchase..")
+        print("Since there is no item, you cannot make a purchase..")
         return
     elif len(employee_list) == 0:
         print("Since there is no employee, you cannot make a purchase")
@@ -186,10 +210,11 @@ def make_purchase():
             else:
                 print("Enter between 'y' or 'n'..")
 
+        print("\nㅡㅡㅡㅡㅡResultㅡㅡㅡㅡㅡ")
         print_employees()
 
         while True:
-            yes_or_no = input("Go to main menu? [y/n] ")
+            yes_or_no = input("\nGo to main menu? [y/n] ")
             if yes_or_no == 'y':
                 return
             elif yes_or_no == 'n':
